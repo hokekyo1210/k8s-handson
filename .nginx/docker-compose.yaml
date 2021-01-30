@@ -1,0 +1,12 @@
+version: "3"
+services:
+  nginx:
+    build: .
+    ports:
+      - "7777:80"
+    environment:
+      NODE_IP: 127.0.0.1
+      POD_IP: 127.0.0.2
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - ./server.conf:/etc/nginx/templates/server.conf.template
