@@ -1,0 +1,55 @@
+---
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: handson
+  labels:
+    name: handson
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sample-lb
+  namespace: handson
+spec:
+  type: LoadBalancer
+  externalTrafficPolicy: Cluster #デフォルト値
+  # healthCheckNodePort: 30086
+  ports:
+    - name: "http-port"
+      protocol: "TCP"
+      port: 8080
+      targetPort: 80
+      nodePort: 30080
+  selector:
+    app: sample-app
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sample-deployment
+  namespace: handson
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: sample-app
+  template:
+    metadata:
+      labels:
+        app: sample-app
+    spec:
+      containers:
+        - name: nginx
+          image: hokekyo1210/nginx-echoip:v1
+          ports:
+            - containerPort: 80
+          env:
+            - name: POD_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+            - name: NODE_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.hostIP
