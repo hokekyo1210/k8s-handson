@@ -1,0 +1,46 @@
+---
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: handson
+  labels:
+    name: handson
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sample-externalname
+  namespace: handson
+spec:
+  type: ExternalName
+  externalName: external.example.com #外部ドメインのCNAME
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bastion
+  namespace: handson
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bastion
+  template:
+    metadata:
+      labels:
+        app: bastion
+    spec:
+      containers:
+        - name: nginx
+          image: hokekyo1210/nginx-echoip:v1
+          ports:
+            - containerPort: 80
+          env:
+            - name: POD_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+            - name: NODE_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.hostIP

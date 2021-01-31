@@ -2,6 +2,7 @@ FROM nginx:1.19
 
 RUN apt-get update && apt-get install -y \
     curl \
+    dnsutils \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 

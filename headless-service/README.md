@@ -8,11 +8,11 @@
 そのような場合、Headless Serviceを利用することでPodを特定して疎通することが出来ます。
 実際には
 ```
-curl sample-statefulset-headless-0
-curl sample-statefulset-headless-1
-curl sample-statefulset-headless-2
+curl sample-statefulset-headless-0.sample-headless
+curl sample-statefulset-headless-1.sample-headless
+curl sample-statefulset-headless-2.sample-headless
 ```
-のように、Pod名で直接名前解決が出来るようになります。
+のように、「Pod名+service名」で直接名前解決が出来るようになります。
 
 ### マニフェストの書き方
 
