@@ -1,0 +1,79 @@
+---
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: handson
+  labels:
+    name: handson
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sample-clusterip
+  namespace: handson
+spec:
+  type: ClusterIP
+  ports:
+    - name: "http-port"
+      protocol: "TCP"
+      port: 80
+      targetPort: 80
+  topologyKeys:
+    - kubernetes.io/hostname #同一ノード優先
+    - "*"
+  selector:
+    app: nginx
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx
+  namespace: handson
+spec:
+  replicas: 6
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+        - name: nginx
+          image: hokekyo1210/nginx-echoip:v1
+          ports:
+            - containerPort: 80
+          env:
+            - name: POD_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+            - name: NODE_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.hostIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bastion
+  namespace: handson
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bastion
+  template:
+    metadata:
+      labels:
+        app: bastion
+    spec:
+      terminationGracePeriodSeconds: 3
+      nodeSelector:
+        kubernetes.io/hostname: kind-worker
+      containers:
+        - name: bastion
+          image: curlimages/curl
+          command: ["/bin/sh"]
+          args: ["-c", "while true; do sleep 10;done"]

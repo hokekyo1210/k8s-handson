@@ -1,6 +1,10 @@
 # 4-node (3-workers) cluster
 kind: Cluster
 apiVersion: kind.x-k8s.io/v1alpha4
+featureGates:
+  EndpointSlice: true
+  EndpointSliceProxying: true
+  ServiceTopology: true
 nodes:
   - role: control-plane
     kubeadmConfigPatches:
