@@ -53,4 +53,4 @@ kind delete cluster
 ### k8sリソースの削除
 
 ハンズオンでは全てのk8sリソースに`namespace: handson`を設定しています。
-そのため、`kubectl delete namespace handon`でk8sリソースを削除出来ます。
+そのため、`kubectl delete namespace handson`でk8sリソースを削除出来ます。
