@@ -7,12 +7,14 @@
 では、ノード上に到達したリクエストが、さらに他のノードのPodに対してロードバランシングされるようになっています。
 
 > !(NodePort Serviceで多重にロードバランシングされてしまう)[https://thinkit.co.jp/sites/default/files/article_node/1373811.jpg]
+> 
 > 引用元: [KubernetesのDiscovery＆LBリソース（その1）](https://thinkit.co.jp/article/13738?page=0%2C1)
 
 この二段階ロードバランシングによって、
 - 不要なオーバーヘッドが生じてしまう
 - Nodeでロードバランシングされる際NATされるため、送信元IPが消失してしまう
 - ノード1台に1Podを配置するDaemonSetでは、リクエストを送る際にPodを特定できなくなってしまう
+
 などの問題があります。
 
 この問題の回避策として、ノードによるロードバランシングを無効化する`spec.externalTrafficPolicy`オプションがあります。

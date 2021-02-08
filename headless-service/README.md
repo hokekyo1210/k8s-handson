@@ -74,6 +74,7 @@ sample-statefulset-headless-2   1/1     Running   0          2s    10.244.1.13  
 ```
 
 Podが3台それぞれ「sample-statefulset-headless-*」という名前で作成されていることが確認出来ます。
+
 早速クラスタ内からcurlを投げてみましょう。
 
 ```

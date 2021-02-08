@@ -7,8 +7,10 @@
 - NodePort Service
 
 では、`spec.sessionAffinity`オプションを設定することで、セッションアフィニティを有効化できます(デフォルトでは無効)。
+
 セッションアフィニティとは送信元のIP(ClientIP)によって、送信先のPodを固定する機能です。
-しかしながらNodePort Serviceにおいては、どのNodeに転送するかによって、同じクライアントIPアドレスでも同じPodに転送されるとは限らないことに注意しましょう。
+
+注意点として、NodePort Serviceにおいては、どのNodeに転送するかによって、同じクライアントIPアドレスでも同じPodに転送されるとは限らないことに気をつけましょう。
 
 
 ## ClusterIP ServiceにおけるSessionAffinity
