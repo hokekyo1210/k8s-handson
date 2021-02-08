@@ -25,6 +25,9 @@ spec:
                 name: sample-clusterip-a
                 port:
                   number: 80
+    - host: b.foo.bar.com
+      http:
+        paths:
           - path: /
             pathType: Prefix
             backend:
